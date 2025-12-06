@@ -7,6 +7,12 @@ const highPerformanceVpsData = {
     subtitle: "Infrastructure",
     heroDescription: "Premium virtual private servers optimized for performance-intensive workloads. Built on enterprise hardware with NVMe storage and high-speed networking.",
     description: "Our High Performance VPS solutions are designed for applications that demand exceptional speed and reliability. Featuring the latest generation processors, NVMe SSD storage, and optimized network configurations, these servers deliver the performance you need for resource-intensive applications, high-traffic websites, and real-time processing workloads.",
+    stats: [
+        { label: "Uptime SLA", value: "99.99%" },
+        { label: "Network Speed", value: "10 Gbps" },
+        { label: "IOPS Performance", value: "100K+" },
+        { label: "Latency", value: "< 1ms" },
+    ],
     features: [
         "Latest generation CPUs",
         "NVMe SSD storage",
@@ -59,17 +65,38 @@ const highPerformanceVpsData = {
         {
             label: "Performance Tier 1",
             price: "Contact Us",
-            period: "per month"
+            description: "Entry-level high-performance configuration for small-scale applications.",
+            features: [
+                "4 vCPU cores",
+                "8GB RAM",
+                "100GB NVMe SSD",
+                "1TB bandwidth"
+            ],
+            highlight: false
         },
         {
             label: "Performance Tier 2",
             price: "Contact Us",
-            period: "per month"
+            description: "Mid-tier configuration for growing businesses and medium workloads.",
+            features: [
+                "8 vCPU cores",
+                "16GB RAM",
+                "250GB NVMe SSD",
+                "5TB bandwidth"
+            ],
+            highlight: true
         },
         {
             label: "Performance Tier 3",
             price: "Contact Us",
-            period: "per month"
+            description: "Enterprise-grade configuration for demanding workloads and high traffic.",
+            features: [
+                "16 vCPU cores",
+                "32GB RAM",
+                "500GB NVMe SSD",
+                "Unlimited bandwidth"
+            ],
+            highlight: false
         }
     ]
 };
@@ -77,4 +104,5 @@ const highPerformanceVpsData = {
 export default function HighPerformanceVpsPage() {
     return <InfraPageTemplate data={highPerformanceVpsData} />;
 }
+
 

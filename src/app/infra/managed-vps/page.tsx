@@ -7,6 +7,12 @@ const managedVpsData = {
     subtitle: "Infrastructure",
     heroDescription: "Fully managed virtual private servers with expert administration, monitoring, and support. Focus on your business while we handle the infrastructure.",
     description: "Our Managed VPS service combines the flexibility of virtual servers with comprehensive management and support. We handle server setup, security updates, monitoring, backups, and troubleshooting, allowing you to focus on your core business. Perfect for businesses that need reliable infrastructure without the overhead of managing servers in-house.",
+    stats: [
+        { label: "Uptime SLA", value: "99.95%" },
+        { label: "Support Response", value: "< 1 hour" },
+        { label: "Managed Services", value: "100%" },
+        { label: "Daily Backups", value: "Included" },
+    ],
     features: [
         "Fully managed administration",
         "Automated backups",
@@ -59,17 +65,43 @@ const managedVpsData = {
         {
             label: "Basic",
             price: "Contact Us",
-            period: "per month"
+            description: "Perfect for small websites and personal projects with essential management.",
+            features: [
+                "2 vCPU cores",
+                "4GB RAM",
+                "50GB SSD storage",
+                "1TB bandwidth",
+                "Daily backups"
+            ],
+            highlight: false
         },
         {
             label: "Standard",
             price: "Contact Us",
-            period: "per month"
+            description: "Ideal for growing businesses and medium-traffic applications.",
+            features: [
+                "4 vCPU cores",
+                "8GB RAM",
+                "100GB SSD storage",
+                "3TB bandwidth",
+                "Daily backups",
+                "Priority support"
+            ],
+            highlight: true
         },
         {
             label: "Premium",
             price: "Contact Us",
-            period: "per month"
+            description: "Enterprise-grade managed hosting for high-traffic applications.",
+            features: [
+                "8+ vCPU cores",
+                "16GB+ RAM",
+                "250GB+ SSD storage",
+                "10TB bandwidth",
+                "Daily backups",
+                "24/7 priority support"
+            ],
+            highlight: false
         }
     ]
 };
@@ -77,4 +109,5 @@ const managedVpsData = {
 export default function ManagedVpsPage() {
     return <InfraPageTemplate data={managedVpsData} />;
 }
+
 

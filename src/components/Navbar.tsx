@@ -7,10 +7,9 @@ import { Menu, X, ChevronDown } from "lucide-react";
 
 export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isInfraDropdownOpen, setIsInfraDropdownOpen] = useState(false);
+    const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
     const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Cleanup timeout on unmount
     useEffect(() => {
         return () => {
             if (dropdownTimeoutRef.current) {
@@ -20,17 +19,44 @@ export default function Navbar() {
     }, []);
 
     const navLinks = [
-        { name: "Services", href: "/services" },
-        { name: "Blog", href: "/blog" },
-        { name: "Process", href: "#process" },
+        { name: "Solutions", href: "/solutions" },
         { name: "Pricing", href: "#pricing" },
+        { name: "Case Studies", href: "/case-studies" },
+        { name: "Blog", href: "/blog" },
+        { name: "About", href: "/about" },
     ];
 
-    const infraSubLinks = [
-        { name: "Dedicated Server", href: "/infra/dedicated-server" },
-        { name: "Managed VPS", href: "/infra/managed-vps" },
-        { name: "Storage", href: "/infra/storage" },
-        { name: "High Performance VPS", href: "/infra/high-performance-vps" },
+    const serviceGroups = [
+        {
+            label: "Entry – Audit & Mini Optimize",
+            items: [
+                { name: "System & Performance Audit", href: "/services/system-audit" },
+                { name: "Website Speed Optimization (Mini)", href: "/services/website-speed-mini" },
+            ],
+        },
+        {
+            label: "Core – Full Optimization",
+            items: [
+                { name: "Full-Stack System Optimization", href: "/services/full-stack-optimization" },
+                { name: "Infrastructure Architecture & Scaling", href: "/services/infra-architecture-scaling" },
+            ],
+        },
+        {
+            label: "Managed – Monthly Services",
+            items: [
+                { name: "Managed VPS", href: "/services/managed-vps" },
+                { name: "Managed Database", href: "/services/managed-database" },
+                { name: "Maintenance & Support Retainer", href: "/services/maintenance-support" },
+            ],
+        },
+        {
+            label: "Add-ons",
+            items: [
+                { name: "Backup & Disaster Recovery", href: "/services/backup-disaster-recovery" },
+                { name: "Security Hardening", href: "/services/security-hardening" },
+                { name: "Migration Service", href: "/services/migration" },
+            ],
+        },
     ];
 
     return (
@@ -58,9 +84,61 @@ export default function Navbar() {
                 </Link>
 
                 {/* --- DESKTOP NAVIGATION --- */}
-                <nav className="hidden items-center gap-10 md:flex">
-                    {navLinks.map((item) => (
-                        item.href.startsWith('/') ? (
+                <nav className="hidden items-center gap-8 md:flex">
+                    {/* Services dropdown */}
+                    <div
+                        className="relative"
+                        onMouseEnter={() => {
+                            if (dropdownTimeoutRef.current) {
+                                clearTimeout(dropdownTimeoutRef.current);
+                                dropdownTimeoutRef.current = null;
+                            }
+                            setIsServicesDropdownOpen(true);
+                        }}
+                        onMouseLeave={() => {
+                            dropdownTimeoutRef.current = setTimeout(() => {
+                                setIsServicesDropdownOpen(false);
+                            }, 300);
+                        }}
+                    >
+                        <button className="flex items-center gap-1 text-sm font-medium text-slate-300 transition-colors hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+                            Services
+                            <ChevronDown
+                                size={16}
+                                className={`transition-transform duration-200 ${
+                                    isServicesDropdownOpen ? "rotate-180" : ""
+                                }`}
+                            />
+                        </button>
+
+                        {isServicesDropdownOpen && (
+                            <div className="absolute top-full left-0 mt-3 w-[620px] rounded-2xl border border-white/10 bg-[#020307]/95 backdrop-blur-xl shadow-2xl py-4 px-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <div className="grid grid-cols-2 gap-4">
+                                    {serviceGroups.map((group) => (
+                                        <div key={group.label}>
+                                            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                                                {group.label}
+                                            </p>
+                                            <div className="space-y-1.5">
+                                                {group.items.map((item) => (
+                                                    <Link
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        className="block rounded-md px-2 py-1.5 text-sm text-slate-300 transition-colors hover:bg-white/5 hover:text-emerald-300"
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {navLinks.map((item) =>
+                        item.href.startsWith("/") ? (
                             <Link
                                 key={item.name}
                                 href={item.href}
@@ -77,46 +155,7 @@ export default function Navbar() {
                                 {item.name}
                             </a>
                         )
-                    ))}
-                    
-                    {/* Infra Dropdown */}
-                    <div 
-                        className="relative"
-                        onMouseEnter={() => {
-                            if (dropdownTimeoutRef.current) {
-                                clearTimeout(dropdownTimeoutRef.current);
-                                dropdownTimeoutRef.current = null;
-                            }
-                            setIsInfraDropdownOpen(true);
-                        }}
-                        onMouseLeave={() => {
-                            dropdownTimeoutRef.current = setTimeout(() => {
-                                setIsInfraDropdownOpen(false);
-                            }, 300); // Delay 300ms before closing
-                        }}
-                    >
-                        <button className="flex items-center gap-1 text-sm font-medium text-slate-300 transition-colors hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
-                            Infra
-                            <ChevronDown 
-                                size={16} 
-                                className={`transition-transform duration-200 ${isInfraDropdownOpen ? 'rotate-180' : ''}`}
-                            />
-                        </button>
-                        
-                        {isInfraDropdownOpen && (
-                            <div className="absolute top-full left-0 mt-2 w-56 rounded-xl border border-white/10 bg-[#020307]/95 backdrop-blur-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                                {infraSubLinks.map((subLink) => (
-                                    <Link
-                                        key={subLink.name}
-                                        href={subLink.href}
-                                        className="block px-4 py-2.5 text-sm text-slate-300 transition-colors hover:bg-white/5 hover:text-emerald-300"
-                                    >
-                                        {subLink.name}
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    )}
                 </nav>
 
                 {/* --- DESKTOP CTA BUTTON --- */}
@@ -142,8 +181,52 @@ export default function Navbar() {
             {isMobileMenuOpen && (
                 <div className="absolute left-0 top-full w-full border-b border-white/10 bg-[#020307] px-6 py-6 shadow-2xl backdrop-blur-3xl md:hidden animate-in slide-in-from-top-5 fade-in duration-200">
                     <nav className="flex flex-col gap-6">
-                        {navLinks.map((item) => (
-                            item.href.startsWith('/') ? (
+                        {/* Mobile Services dropdown */}
+                        <div>
+                            <button
+                                onClick={() =>
+                                    setIsServicesDropdownOpen(!isServicesDropdownOpen)
+                                }
+                                className="flex w-full items-center justify-between text-lg font-medium text-slate-300 hover:text-emerald-400 transition-colors"
+                            >
+                                Services
+                                <ChevronDown
+                                    size={20}
+                                    className={`transition-transform duration-200 ${
+                                        isServicesDropdownOpen ? "rotate-180" : ""
+                                    }`}
+                                />
+                            </button>
+                            {isServicesDropdownOpen && (
+                                <div className="mt-3 ml-2 flex flex-col gap-4 border-l border-white/10 pl-4">
+                                    {serviceGroups.map((group) => (
+                                        <div key={group.label} className="space-y-2">
+                                            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                                                {group.label}
+                                            </p>
+                                            <div className="flex flex-col gap-2">
+                                                {group.items.map((item) => (
+                                                    <Link
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        onClick={() => {
+                                                            setIsMobileMenuOpen(false);
+                                                            setIsServicesDropdownOpen(false);
+                                                        }}
+                                                        className="text-base text-slate-400 hover:text-emerald-400 transition-colors"
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {navLinks.map((item) =>
+                            item.href.startsWith("/") ? (
                                 <Link
                                     key={item.name}
                                     href={item.href}
@@ -162,39 +245,8 @@ export default function Navbar() {
                                     {item.name}
                                 </a>
                             )
-                        ))}
-                        
-                        {/* Mobile Infra Dropdown */}
-                        <div>
-                            <button
-                                onClick={() => setIsInfraDropdownOpen(!isInfraDropdownOpen)}
-                                className="flex w-full items-center justify-between text-lg font-medium text-slate-300 hover:text-emerald-400 transition-colors"
-                            >
-                                Infra
-                                <ChevronDown 
-                                    size={20} 
-                                    className={`transition-transform duration-200 ${isInfraDropdownOpen ? 'rotate-180' : ''}`}
-                                />
-                            </button>
-                            {isInfraDropdownOpen && (
-                                <div className="mt-2 ml-4 flex flex-col gap-3 border-l border-white/10 pl-4">
-                                    {infraSubLinks.map((subLink) => (
-                                        <Link
-                                            key={subLink.name}
-                                            href={subLink.href}
-                                            onClick={() => {
-                                                setIsMobileMenuOpen(false);
-                                                setIsInfraDropdownOpen(false);
-                                            }}
-                                            className="text-base text-slate-400 hover:text-emerald-400 transition-colors"
-                                        >
-                                            {subLink.name}
-                                        </Link>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                        
+                        )}
+
                         <hr className="border-white/10" />
                         <a
                             href="#contact"

@@ -7,6 +7,12 @@ const storageData = {
     subtitle: "Infrastructure",
     heroDescription: "Scalable, reliable storage infrastructure designed for modern applications. From object storage to block storage, we provide the right solution for your data needs.",
     description: "Our storage solutions offer high-performance, scalable infrastructure for all your data storage requirements. Whether you need object storage for media files, block storage for databases, or file storage for applications, we provide enterprise-grade solutions with redundancy, backup, and disaster recovery capabilities.",
+    stats: [
+        { label: "Data Durability", value: "99.99%" },
+        { label: "Storage Types", value: "3+" },
+        { label: "Regions", value: "Global" },
+        { label: "API Compatibility", value: "S3-ready" },
+    ],
     features: [
         "Multiple storage types",
         "High availability and redundancy",
@@ -59,17 +65,41 @@ const storageData = {
         {
             label: "Standard Storage",
             price: "Contact Us",
-            period: "per GB/month"
+            description: "Cost-effective storage for general-purpose workloads and backups.",
+            features: [
+                "Object storage",
+                "99.9% availability",
+                "S3-compatible API",
+                "Multi-region replication",
+                "AES-256 encryption"
+            ],
+            highlight: false
         },
         {
             label: "Performance Storage",
             price: "Contact Us",
-            period: "per GB/month"
+            description: "High-performance storage optimized for low latency and high IOPS.",
+            features: [
+                "SSD-backed storage",
+                "99.99% availability",
+                "Sub-millisecond latency",
+                "High IOPS performance",
+                "Global CDN integration"
+            ],
+            highlight: true
         },
         {
             label: "Archive Storage",
             price: "Contact Us",
-            period: "per GB/month"
+            description: "Long-term archival storage for compliance and cost optimization.",
+            features: [
+                "Ultra-low cost storage",
+                "99.99% durability",
+                "Long-term retention",
+                "Automated tiering",
+                "Compliance ready"
+            ],
+            highlight: false
         }
     ]
 };
@@ -77,4 +107,5 @@ const storageData = {
 export default function StoragePage() {
     return <InfraPageTemplate data={storageData} />;
 }
+
 

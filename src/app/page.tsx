@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // --- Components: System Monitor (Simulation) ---
 
@@ -767,26 +768,7 @@ export default function HomePage() {
             </section>
 
             {/* --- Footer --- */}
-            <footer className="relative z-10 border-t border-white/5 bg-[#020307] py-10 text-center">
-                <div className="mb-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-600">
-                    Website · System · Architecture · Infrastructure Optimization
-                </div>
-                <div className="flex justify-center gap-6 text-xs text-slate-400">
-                    <a href="#" className="hover:text-emerald-300">
-                        GitHub
-                    </a>
-                    <a href="#" className="hover:text-emerald-300">
-                        Twitter
-                    </a>
-                    <a href="#" className="hover:text-emerald-300">
-                        Status
-                    </a>
-                </div>
-                <p className="mt-6 text-[10px] text-slate-600">
-                    &copy; {new Date().getFullYear()} OptyxStack. End-to-end optimization from
-                    user-facing pages to system architecture and dedicated infrastructure.
-                </p>
-            </footer>
+            <Footer />
         </main>
     );
 }
