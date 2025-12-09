@@ -1,15 +1,33 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getCaseStudyData, getAllCaseStudySlugs } from "@/lib/case-studies";
 import { Calendar, ArrowLeft, TrendingUp, CheckCircle2 } from "lucide-react";
+import { generateMetadata as genMeta, generateCaseStudySchema, siteConfig } from "@/lib/seo";
 
 export function generateStaticParams() {
     const slugs = getAllCaseStudySlugs();
     return slugs.map((slug) => ({
         slug: slug,
     }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const study = await getCaseStudyData(slug);
+
+    if (!study) {
+        return {};
+    }
+
+    return genMeta({
+        title: study.title,
+        description: study.excerpt || study.content.substring(0, 150) || "Read our case study",
+        path: `/case-studies/${slug}`,
+    });
 }
 
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -20,8 +38,25 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         notFound();
     }
 
+    const jsonLd = generateCaseStudySchema({
+        title: study.title,
+        description: study.excerpt || study.content.substring(0, 150) || "",
+        url: `${siteConfig.siteUrl}/case-studies/${slug}`,
+        datePublished: study.date,
+        dateModified: study.date,
+        client: study.client,
+        industry: study.industry,
+    });
+
     return (
-        <main className="min-h-screen bg-[#020307] text-slate-200 selection:bg-emerald-500/30 selection:text-emerald-50 font-sans">
+        <>
+            <Script
+                id="casestudy-jsonld"
+                type="application/ld+json"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <main className="min-h-screen bg-[#020307] text-slate-200 selection:bg-emerald-500/30 selection:text-emerald-50 font-sans">
             {/* --- Subtle Ambient Background --- */}
             <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
                 <div className="absolute top-[-20%] left-[10%] h-[520px] w-[520px] rounded-full bg-emerald-700/20 blur-[120px]" />
@@ -185,6 +220,11 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             {/* Footer */}
             <Footer />
         </main>
+        </>
     );
 }
+
+
+
+
 

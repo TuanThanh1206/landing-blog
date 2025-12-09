@@ -242,3 +242,7 @@ With the edge infrastructure in place, we're now working on:
 
 *This case study demonstrates how edge computing can transform global performance and reduce costs simultaneously. If you're serving a global audience, edge computing should be part of your strategy.*
 
+
+
+
+

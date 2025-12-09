@@ -1,14 +1,32 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { getPostData, getAllPostSlugs } from "@/lib/blog";
 import { Calendar, ArrowLeft, Clock } from "lucide-react";
+import { generateMetadata as genMeta, generateBlogPostingSchema, siteConfig } from "@/lib/seo";
 
 export function generateStaticParams() {
     const slugs = getAllPostSlugs();
     return slugs.map((slug) => ({
         slug: slug,
     }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const post = await getPostData(slug);
+
+    if (!post) {
+        return {};
+    }
+
+    return genMeta({
+        title: post.title,
+        description: post.excerpt || post.content.substring(0, 150) || "Read our latest engineering insights",
+        path: `/blog/${slug}`,
+    });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -19,8 +37,24 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         notFound();
     }
 
+    const jsonLd = generateBlogPostingSchema({
+        title: post.title,
+        description: post.excerpt || post.content.substring(0, 150) || "",
+        url: `${siteConfig.siteUrl}/blog/${slug}`,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: post.author || siteConfig.organization.name,
+    });
+
     return (
-        <main className="min-h-screen bg-[#020307] text-slate-200 selection:bg-emerald-500/30 selection:text-emerald-50 font-sans">
+        <>
+            <Script
+                id="blogpost-jsonld"
+                type="application/ld+json"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <main className="min-h-screen bg-[#020307] text-slate-200 selection:bg-emerald-500/30 selection:text-emerald-50 font-sans">
             {/* --- Subtle Ambient Background --- */}
             <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
                 <div className="absolute top-[-20%] left-[10%] h-[520px] w-[520px] rounded-full bg-emerald-700/20 blur-[120px]" />
@@ -131,6 +165,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 </p>
             </footer>
         </main>
+        </>
     );
 }
 

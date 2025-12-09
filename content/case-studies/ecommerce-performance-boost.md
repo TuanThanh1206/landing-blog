@@ -120,3 +120,7 @@ TechRetail continues to grow, and we're now working on:
 
 *This case study demonstrates how comprehensive optimization can transform both technical performance and business outcomes. If you're facing similar challenges, we'd love to discuss how we can help.*
 
+
+
+
+

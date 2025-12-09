@@ -105,3 +105,7 @@ const dedicatedServerData: InfraPageData = {
 export default function DedicatedServerPage() {
     return <InfraPageTemplate data={dedicatedServerData} />;
 }
+
+
+
+

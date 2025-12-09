@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getSortedCaseStudiesData } from "@/lib/case-studies";
 import { Calendar, ArrowRight, TrendingUp } from "lucide-react";
+import { generateMetadata as genMeta } from "@/lib/seo";
+
+export const metadata: Metadata = genMeta({
+    title: "Case Studies | Real-World Results",
+    description: "Real-world examples of how we've transformed slow, fragile systems into fast, reliable infrastructure. See measurable results from our optimization projects.",
+    path: "/case-studies",
+});
 
 export default function CaseStudiesPage() {
     const caseStudies = getSortedCaseStudiesData();
@@ -149,4 +157,8 @@ export default function CaseStudiesPage() {
         </main>
     );
 }
+
+
+
+
 

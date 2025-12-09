@@ -1,13 +1,37 @@
+import type { Metadata } from "next";
+import Script from "next/script";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { getSortedPostsData } from "@/lib/blog";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { generateMetadata as genMeta, generateOrganizationSchema, siteConfig } from "@/lib/seo";
+
+export const metadata: Metadata = genMeta({
+    title: "Blog & Engineering Insights",
+    description: "Insights on performance optimization, system architecture, and infrastructure best practices from the OptyxStack team.",
+    path: "/blog",
+});
 
 export default function BlogPage() {
     const posts = getSortedPostsData();
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        name: "OptyxStack Blog",
+        description: "Engineering insights on performance optimization, system architecture, and infrastructure best practices",
+        url: `${siteConfig.siteUrl}/blog`,
+        publisher: generateOrganizationSchema(),
+    };
 
     return (
-        <main className="min-h-screen bg-[#020307] text-slate-200 selection:bg-emerald-500/30 selection:text-emerald-50 font-sans">
+        <>
+            <Script
+                id="blog-jsonld"
+                type="application/ld+json"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <main className="min-h-screen bg-[#020307] text-slate-200 selection:bg-emerald-500/30 selection:text-emerald-50 font-sans">
             {/* --- Subtle Ambient Background --- */}
             <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
                 <div className="absolute top-[-20%] left-[10%] h-[520px] w-[520px] rounded-full bg-emerald-700/20 blur-[120px]" />
@@ -135,6 +159,7 @@ export default function BlogPage() {
                 </p>
             </footer>
         </main>
+        </>
     );
 }
 
