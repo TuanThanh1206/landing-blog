@@ -49,7 +49,7 @@ const SCENARIOS = [
 ];
 
 // Helper for icon
-function DatabaseIcon(props) {
+function DatabaseIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             {...props}
