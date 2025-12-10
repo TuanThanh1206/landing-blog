@@ -281,7 +281,7 @@ export default function AboutClient() {
                             <p className="text-sm text-slate-400 mb-8">
                                 If your system feels slow, fragile, or expensive to maintain, we fix that. We combine deep engineering with business sense to give you a platform you can trust.
                             </p>
-                            <a href="/contact" className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors">
+                            <a href="/services/system-audit" className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors">
                                 Start with an audit <ArrowRight className="h-4 w-4" />
                             </a>
                         </div>

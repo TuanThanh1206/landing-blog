@@ -1,8 +1,9 @@
 ---
 title: "E-commerce Platform: 3x Faster Load Times, 40% Higher Conversion"
-date: "2024-01-15"
+date: "2024-05-15"
 client: "TechRetail Co."
 industry: "E-commerce"
+thumbnail: "/images/case-studies/ecommerce-performance-boost.jpg"
 excerpt: "Transformed a slow e-commerce platform struggling with Black Friday traffic into a high-performance system that handles 10x traffic spikes without breaking."
 tags:
   - "Performance Optimization"
@@ -119,6 +120,7 @@ TechRetail continues to grow, and we're now working on:
 ---
 
 *This case study demonstrates how comprehensive optimization can transform both technical performance and business outcomes. If you're facing similar challenges, we'd love to discuss how we can help.*
+
 
 
 

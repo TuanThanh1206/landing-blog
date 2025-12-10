@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { getSortedPostsData } from "@/lib/blog";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
@@ -77,9 +78,26 @@ export default function BlogPage() {
                                     href={`/blog/${post.slug}`}
                                     className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04] hover:border-white/16"
                                 >
-                                    <div className="absolute top-0 right-0 p-4 opacity-0 transition-opacity group-hover:opacity-100">
+                                    <div className="absolute top-0 right-0 p-4 opacity-0 transition-opacity group-hover:opacity-100 z-10">
                                         <ArrowRight className="h-5 w-5 -rotate-45 text-emerald-400" />
                                     </div>
+
+                                    {/* Thumbnail Image */}
+                                    {post.thumbnail ? (
+                                        <div className="relative h-48 w-full overflow-hidden bg-white/[0.02]">
+                                            <Image
+                                                src={post.thumbnail}
+                                                alt={post.title}
+                                                fill
+                                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="h-48 w-full bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 flex items-center justify-center">
+                                            <div className="text-4xl opacity-20">📝</div>
+                                        </div>
+                                    )}
 
                                     <div className="flex flex-1 flex-col p-6">
                                         {/* Tags */}

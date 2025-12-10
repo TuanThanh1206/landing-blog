@@ -16,6 +16,7 @@ export interface CaseStudy {
   client?: string;
   industry?: string;
   tags?: string[];
+  thumbnail?: string; // Path to thumbnail image
   metrics?: {
     label: string;
     value: string;
@@ -56,6 +57,7 @@ export function getSortedCaseStudiesData(): CaseStudy[] {
         client: matterResult.data.client || '',
         industry: matterResult.data.industry || '',
         tags: matterResult.data.tags || [],
+        thumbnail: matterResult.data.thumbnail || '',
         metrics: matterResult.data.metrics || [],
         challenge: matterResult.data.challenge || '',
         solution: matterResult.data.solution || '',
@@ -117,6 +119,7 @@ export async function getCaseStudyData(slug: string): Promise<CaseStudy | null> 
       client: matterResult.data.client || '',
       industry: matterResult.data.industry || '',
       tags: matterResult.data.tags || [],
+      thumbnail: matterResult.data.thumbnail || '',
       metrics: matterResult.data.metrics || [],
       challenge: matterResult.data.challenge || '',
       solution: matterResult.data.solution || '',
@@ -128,6 +131,7 @@ export async function getCaseStudyData(slug: string): Promise<CaseStudy | null> 
     return null;
   }
 }
+
 
 
 

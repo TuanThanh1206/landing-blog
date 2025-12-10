@@ -13,7 +13,6 @@ export default function Footer() {
         { name: "Website Speed Optimization", href: "/services/website-speed-mini" },
         { name: "Full-Stack Optimization", href: "/services/full-stack-optimization" },
         { name: "Security Hardening", href: "/services/security-hardening" },
-        { name: "Backup & Disaster Recovery", href: "/services/backup-disaster-recovery" },
         { name: "Migration Service", href: "/services/migration" },
     ];
 
@@ -24,7 +23,6 @@ export default function Footer() {
         { name: "Managed Database", href: "/services/managed-database" },
         { name: "High Performance VPS", href: "/infra/high-performance-vps" },
         { name: "Storage Solutions", href: "/infra/storage" },
-        { name: "Maintenance Retainer", href: "/services/maintenance-support" },
     ];
 
     // Nhóm 3: Thông tin công ty & Điều hướng chung
@@ -33,7 +31,6 @@ export default function Footer() {
         { name: "Case Studies", href: "/case-studies" },
         { name: "Blog & Insights", href: "/blog" },
         { name: "Pricing Models", href: "#pricing" },
-        { name: "Contact Support", href: "/contact" },
     ];
 
     const socialLinks = [
@@ -44,9 +41,9 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="relative z-10 border-t border-white/10 bg-[#020307] text-slate-400">
-            {/* Decorative gradient line */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+        <footer className="relative z-10 border-t border-white/10 bg-[#0B0F19] text-gray-400">
+            {/* Decorative line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
             <div className="mx-auto max-w-7xl px-6 pt-16 pb-8">
                 {/* Main Grid Layout */}
@@ -55,26 +52,26 @@ export default function Footer() {
                     {/* Column 1: Brand Identity (Chiếm 4/12 cột) */}
                     <div className="lg:col-span-4 flex flex-col items-start">
                         <Link href="/" className="group flex items-center gap-3 mb-6">
-                            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/10 to-transparent border border-white/5">
+                            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 border border-white/10">
                                 <Image
                                     src="/iconv.png"
                                     alt="OptyxStack Logo"
                                     width={32}
                                     height={32}
-                                    className="object-contain"
+                                    className="object-contain brightness-0 invert"
                                 />
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-[10px] font-bold tracking-[0.2em] text-emerald-500 uppercase">
+                                <span className="text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase">
                                     Studio
                                 </span>
                                 <span className="text-lg font-bold tracking-tight text-white leading-none">
-                                    Optyx<span className="text-slate-600">Stack</span>
+                                    Optyx<span className="text-gray-500">Stack</span>
                                 </span>
                             </div>
                         </Link>
 
-                        <p className="mb-8 max-w-sm text-sm leading-relaxed text-slate-400">
+                        <p className="mb-8 max-w-sm text-sm leading-relaxed text-gray-400">
                             End-to-end optimization from user-facing pages to system architecture.
                             We build fast, stable systems that scale effortlessly under load.
                         </p>
@@ -88,7 +85,7 @@ export default function Footer() {
                                         href={social.href}
                                         target={social.href.startsWith("mailto:") ? undefined : "_blank"}
                                         rel="noopener noreferrer"
-                                        className="group flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400"
+                                        className="group flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 text-gray-400"
                                         aria-label={social.name}
                                     >
                                         <Icon size={16} />
@@ -108,7 +105,7 @@ export default function Footer() {
                                 <li key={item.name}>
                                     <Link
                                         href={item.href}
-                                        className="group flex items-center gap-2 text-sm transition-colors hover:text-emerald-400"
+                                        className="group flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-white"
                                     >
                                         <span className="h-1 w-1 rounded-full bg-emerald-500/50 opacity-0 transition-all group-hover:opacity-100" />
                                         <span>{item.name}</span>
@@ -128,7 +125,7 @@ export default function Footer() {
                                 <li key={item.name}>
                                     <Link
                                         href={item.href}
-                                        className="group flex items-center gap-2 text-sm transition-colors hover:text-emerald-400"
+                                        className="group flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-white"
                                     >
                                         <span className="h-1 w-1 rounded-full bg-emerald-500/50 opacity-0 transition-all group-hover:opacity-100" />
                                         <span>{item.name}</span>
@@ -148,7 +145,7 @@ export default function Footer() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="group flex items-center justify-between text-sm transition-colors hover:text-emerald-400"
+                                        className="group flex items-center justify-between text-sm text-gray-400 transition-colors hover:text-white"
                                     >
                                         <span>{link.name}</span>
                                     </Link>
@@ -159,27 +156,20 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar: Copyright & Legal */}
-                <div className="border-t border-white/5 pt-8">
-                    <div className="flex flex-col-reverse items-center justify-between gap-4 md:flex-row text-xs text-slate-500">
+                <div className="border-t border-white/10 pt-8">
+                    <div className="flex flex-col-reverse items-center justify-between gap-4 md:flex-row text-xs text-gray-500">
                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-center md:text-left">
                             <span>&copy; {currentYear} OptyxStack Inc.</span>
-                            <span className="hidden md:block text-slate-700">|</span>
+                            <span className="hidden md:block text-gray-600">|</span>
                             <span>All rights reserved.</span>
                         </div>
 
                         <div className="flex gap-6 font-medium">
-                            <Link href="/privacy" className="hover:text-emerald-400 transition-colors">
+                            <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
                                 Privacy Policy
                             </Link>
-                            <Link href="/terms" className="hover:text-emerald-400 transition-colors">
+                            <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
                                 Terms of Service
-                            </Link>
-                            <Link href="/status" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
-                                <span className="relative flex h-2 w-2">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                                </span>
-                                System Status
                             </Link>
                         </div>
                     </div>

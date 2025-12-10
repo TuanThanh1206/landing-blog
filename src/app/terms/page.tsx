@@ -54,7 +54,7 @@ export default function TermsOfService() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const scrollToSection = (id) => {
+    const scrollToSection = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
             const offset = 100; // Header offset
