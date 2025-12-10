@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import HomeClient from "@/components/HomeClient";
 import { generateMetadata as genMeta, generateProfessionalServiceSchema, siteConfig } from "@/lib/seo";
+import { getSortedCaseStudiesData } from "@/lib/case-studies";
+import { getSortedPostsData } from "@/lib/blog";
 
 // Metadata using centralized SEO config
 export const metadata: Metadata = genMeta({
@@ -14,6 +16,10 @@ export const metadata: Metadata = genMeta({
 const jsonLd = generateProfessionalServiceSchema();
 
 export default function Page() {
+    // Fetch data on server side
+    const caseStudies = getSortedCaseStudiesData().slice(0, 3);
+    const blogPosts = getSortedPostsData().slice(0, 3);
+
     return (
         <>
             {/* Schema JSON-LD */}
@@ -25,7 +31,7 @@ export default function Page() {
             />
 
             {/* Home content */}
-            <HomeClient />
+            <HomeClient caseStudies={caseStudies} blogPosts={blogPosts} />
         </>
     );
 }

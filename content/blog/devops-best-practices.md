@@ -2,6 +2,7 @@
 title: "DevOps Best Practices for Modern Teams"
 date: "2024-01-05"
 author: "OptyxStack Team"
+thumbnail: "/images/blog/devops-best-practices.jpg"
 excerpt: "Essential DevOps practices that help teams ship faster, more reliably, and with less stress."
 tags: ["DevOps", "CI/CD", "Infrastructure"]
 ---

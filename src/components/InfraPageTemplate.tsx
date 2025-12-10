@@ -93,7 +93,7 @@ export default function InfraPageTemplate({ data }: InfraPageTemplateProps) {
                                 View Configurations
                             </a>
                             <Link
-                                href="/contact"
+                                href="/services"
                                 className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-medium rounded-lg transition-all backdrop-blur-sm"
                             >
                                 Talk to an Expert
@@ -243,6 +243,7 @@ export default function InfraPageTemplate({ data }: InfraPageTemplateProps) {
         </main>
     );
 }
+
 
 
 

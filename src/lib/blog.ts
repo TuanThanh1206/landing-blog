@@ -15,6 +15,7 @@ export interface BlogPost {
   excerpt?: string;
   author?: string;
   tags?: string[];
+  thumbnail?: string; // Path to thumbnail image
   content: string;
   contentHtml?: string;
 }
@@ -46,6 +47,7 @@ export function getSortedPostsData(): BlogPost[] {
         excerpt: matterResult.data.excerpt || '',
         author: matterResult.data.author || '',
         tags: matterResult.data.tags || [],
+        thumbnail: matterResult.data.thumbnail || '',
         content: matterResult.content,
       };
     });
@@ -102,11 +104,72 @@ export async function getPostData(slug: string): Promise<BlogPost | null> {
       excerpt: matterResult.data.excerpt || '',
       author: matterResult.data.author || '',
       tags: matterResult.data.tags || [],
+      thumbnail: matterResult.data.thumbnail || '',
       content: matterResult.content,
     };
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error);
     return null;
   }
+}
+
+// Get related posts based on tags (excluding current post)
+export function getRelatedPosts(currentSlug: string, currentTags: string[] = [], limit: number = 3): BlogPost[] {
+  const allPosts = getSortedPostsData();
+  
+  // Filter out current post
+  const otherPosts = allPosts.filter(post => post.slug !== currentSlug);
+  
+  if (otherPosts.length === 0) return [];
+  
+  // Score posts based on tag matches
+  const scoredPosts = otherPosts.map(post => {
+    let score = 0;
+    if (post.tags && currentTags.length > 0) {
+      const matchingTags = post.tags.filter(tag => currentTags.includes(tag));
+      score = matchingTags.length;
+    }
+    return { post, score };
+  });
+  
+  // Sort by score (descending), then by date (descending)
+  scoredPosts.sort((a, b) => {
+    if (a.score !== b.score) {
+      return b.score - a.score;
+    }
+    return new Date(b.post.date).getTime() - new Date(a.post.date).getTime();
+  });
+  
+  // Get top posts, fallback to recent posts if no tag matches
+  const related = scoredPosts
+    .filter(item => item.score > 0)
+    .slice(0, limit)
+    .map(item => item.post);
+  
+  // If not enough related posts, fill with recent posts
+  if (related.length < limit) {
+    const recent = otherPosts
+      .filter(post => !related.find(r => r.slug === post.slug))
+      .slice(0, limit - related.length);
+    return [...related, ...recent];
+  }
+  
+  return related;
+}
+
+// Get recent posts (excluding current post)
+export function getRecentPosts(currentSlug: string, limit: number = 3): BlogPost[] {
+  const allPosts = getSortedPostsData();
+  return allPosts
+    .filter(post => post.slug !== currentSlug)
+    .slice(0, limit);
+}
+
+// Calculate reading time in minutes
+export function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 200;
+  const text = content.replace(/<[^>]*>/g, ''); // Remove HTML tags
+  const wordCount = text.trim().split(/\s+/).length;
+  return Math.ceil(wordCount / wordsPerMinute);
 }
 
