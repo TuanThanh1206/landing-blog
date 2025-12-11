@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptyxStack Performance Dashboard - High Load</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0f172a', 800: '#1e293b', 700: '#334155' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+        body { background-color: #0b0f19; color: #e2e8f0; font-size: 0.9rem; }
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        .flow-line {
+            height: 2px; flex-grow: 1;
+            background: linear-gradient(90deg, rgba(245,158,11,0.2) 0%, rgba(245,158,11,1) 50%, rgba(245,158,11,0.2) 100%); /* Changed to Orange/Yellow indicating stress */
+            position: relative;
+        }
+        .flow-dot {
+            position: absolute; width: 6px; height: 6px; background: #fff;
+            border-radius: 50%; top: -2px;
+            animation: moveRight 1s infinite linear; /* Faster animation */
+            box-shadow: 0 0 10px #f59e0b;
+        }
+        @keyframes moveRight {
+            0% { left: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-6">
+
+<header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-700/50 shadow-lg h-16">
+    <div class="max-w-[1800px] mx-auto px-4 h-full flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-gradient-to-br from-indigo-500 to-orange-600 flex items-center justify-center text-white font-bold shadow-lg">O</div>
+            <div class="flex items-center gap-2">
+                <h1 class="text-lg font-bold tracking-tight text-white leading-tight">Optyx<span class="text-orange-400">Stack</span></h1>
+                <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-emerald-300">Monitor</span>
+            </div>
+        </div>
+
+        <div class="hidden md:flex items-center gap-6">
+            <div class="flex items-center gap-2">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                </span>
+                <span class="text-emerald-300 font-bold text-xs">OPTIMIZED</span>
+            </div>
+            <div class="border-l border-slate-700 pl-4">
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Load</span>
+                <span class="text-white font-bold text-sm"><span id="live-rps">4,320</span> RPS</span>
+            </div>
+            <div class="border-l border-slate-700 pl-4">
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Error</span>
+                <span class="text-emerald-300 font-bold text-sm">0.08%</span> </div>
+            <div class="border-l border-slate-700 pl-4">
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Users</span>
+                <span class="text-white font-bold text-sm"><i class="fa-solid fa-users text-indigo-400 mr-1"></i><span id="live-users">260</span></span>
+            </div>
+        </div>
+
+        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded text-xs font-medium transition flex items-center gap-2">
+            <i class="fa-solid fa-file-export"></i> Export
+        </button>
+    </div>
+</header>
+
+<main class="max-w-[1800px] mx-auto px-4 mt-4 grid grid-cols-12 gap-4">
+
+    <section class="col-span-12 lg:col-span-8 card p-4 border-orange-500/20">
+        <div class="flex justify-between items-center mb-2">
+            <h2 class="text-sm font-semibold text-white"><i class="fa-solid fa-diagram-project mr-2 text-emerald-300"></i> Traffic Flow Map</h2>
+            <span class="text-[10px] text-white bg-emerald-500/70 px-2 py-0.5 rounded">Latency: 118ms</span>
+        </div>
+        <div class="flex items-center justify-between gap-2 mt-2">
+            <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center text-slate-300 mx-auto shadow-lg relative z-10"><i class="fa-solid fa-globe text-sm"></i></div>
+                <p class="mt-1 text-[10px] text-indigo-400">Clients</p>
+            </div>
+            <div class="flow-line" style="background: linear-gradient(90deg, rgba(52,211,153,0.2) 0%, rgba(52,211,153,1) 50%, rgba(52,211,153,0.2) 100%);"><div class="flow-dot" style="box-shadow: 0 0 10px #34d399"></div></div>
+            <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-yellow-500 flex items-center justify-center text-yellow-400 mx-auto"><i class="fa-solid fa-cloud text-sm"></i></div>
+                <p class="mt-1 text-[10px] text-yellow-400">CDN (95%)</p>
+            </div>
+            <div class="flow-line" style="background: linear-gradient(90deg, rgba(52,211,153,0.2) 0%, rgba(52,211,153,1) 50%, rgba(52,211,153,0.2) 100%);"><div class="flow-dot" style="animation-delay: 0.5s; box-shadow: 0 0 10px #34d399"></div></div>
+            <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-blue-500 flex items-center justify-center text-blue-400 mx-auto"><i class="fa-solid fa-network-wired text-sm"></i></div>
+                <p class="mt-1 text-[10px] text-slate-400">LB (18ms)</p>
+            </div>
+            <div class="flow-line" style="background: linear-gradient(90deg, rgba(52,211,153,0.2) 0%, rgba(52,211,153,1) 50%, rgba(52,211,153,0.2) 100%);"><div class="flow-dot" style="animation-delay: 1s; box-shadow: 0 0 10px #34d399"></div></div>
+            <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-emerald-400 flex items-center justify-center text-emerald-300 mx-auto"><i class="fa-solid fa-server text-sm"></i></div>
+                <p class="mt-1 text-[10px] text-emerald-300">Web (42%)</p>
+            </div>
+            <div class="flow-line" style="background: linear-gradient(90deg, rgba(52,211,153,0.2) 0%, rgba(52,211,153,1) 50%, rgba(52,211,153,0.2) 100%);"><div class="flow-dot" style="animation-delay: 1.5s; box-shadow: 0 0 10px #34d399"></div></div>
+            <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-orange-500 flex items-center justify-center text-orange-400 mx-auto"><i class="fa-solid fa-database text-sm"></i></div>
+                <p class="mt-1 text-[10px] text-orange-400">DB (35ms)</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="col-span-12 lg:col-span-4 card overflow-hidden flex flex-col">
+        <div class="p-3 border-b border-slate-700 flex justify-between items-center bg-slate-800/50">
+            <h3 class="text-sm font-bold text-white">Alerts Center</h3>
+            <span class="bg-emerald-500 text-white text-[10px] px-2 rounded-full">0 Critical</span>
+        </div>
+        <div class="divide-y divide-slate-700/50 overflow-y-auto flex-1">
+            <div class="p-3 hover:bg-slate-700/30 transition cursor-pointer flex justify-between items-start border-l-2 border-l-emerald-500">
+                <div class="flex gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1 text-xs"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white">Healthy</p>
+                        <p class="text-[10px] text-slate-400">All services within target SLOs.</p>
+                    </div>
+                </div>
+                <span class="text-[10px] text-emerald-300">Now</span>
+            </div>
+            <div class="p-3 hover:bg-slate-700/30 transition cursor-pointer flex justify-between items-start border-l-2 border-l-blue-500">
+                <div class="flex gap-2">
+                    <i class="fa-solid fa-gauge-high text-blue-400 mt-1 text-xs"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white">Auto-Scaling Idle</p>
+                        <p class="text-[10px] text-slate-400">Capacity at 55%, buffer ready.</p>
+                    </div>
+                </div>
+                <span class="text-[10px] text-slate-500">3m</span>
+            </div>
+            <div class="p-3 hover:bg-slate-700/30 transition cursor-pointer flex justify-between items-start">
+                <div class="flex gap-2">
+                    <i class="fa-solid fa-shield-halved text-emerald-300 mt-1 text-xs"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white">Security</p>
+                        <p class="text-[10px] text-slate-400">WAF blocking 99.2% of threats.</p>
+                    </div>
+                </div>
+                <span class="text-[10px] text-slate-500">12m</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-4 card p-4 bg-gradient-to-br from-slate-800 to-slate-900 border-t-2 border-t-blue-500">
+        <div class="flex justify-between items-start">
+            <div>
+                <h3 class="text-sm font-bold text-blue-400">Incoming Traffic</h3>
+                <p class="text-xl font-bold text-white">3.2M <span class="text-[10px] font-normal text-slate-400">/24h</span></p>
+            </div>
+            <span class="px-1.5 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/50">Stable</span>
+        </div>
+        <div id="chart-traffic-in" style="min-height: 150px;" class="-ml-2"></div>
+        <div class="flex justify-between mt-2 pt-2 border-t border-slate-700">
+            <div><p class="text-[10px] text-slate-500">Mobile</p><p class="text-xs font-bold text-white">76%</p></div>
+            <div><p class="text-[10px] text-slate-500">Bot</p><p class="text-xs font-bold text-orange-500">9%</p></div> <div><p class="text-[10px] text-slate-500">WAF Block</p><p class="text-xs font-bold text-emerald-300">12.4k</p></div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-4 card p-4">
+        <h3 class="text-sm font-bold text-white mb-2">System Resources</h3>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="relative">
+                <div id="chart-cpu" class="-mt-4"></div>
+                <p class="text-xs font-medium text-center -mt-2 text-emerald-300">CPU</p>
+            </div>
+            <div class="relative">
+                <div id="chart-ram" class="-mt-4"></div>
+                <p class="text-xs font-medium text-center -mt-2 text-blue-300">RAM</p>
+            </div>
+        </div>
+        <div class="space-y-3 mt-2">
+            <div>
+                <div class="flex justify-between text-[10px] mb-1 text-slate-400"><span>Disk I/O (Balanced)</span><span class="text-emerald-300">420 MB/s</span></div>
+                <div class="w-full bg-slate-800 h-1 rounded"><div class="bg-emerald-400 h-1 rounded" style="width: 48%"></div></div>
+            </div>
+            <div>
+                <div class="flex justify-between text-[10px] mb-1 text-slate-400"><span>Network In</span><span>3.1 Gbps</span></div>
+                <div class="w-full bg-slate-800 h-1 rounded"><div class="bg-indigo-500 h-1 rounded" style="width: 42%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-4 card p-4 bg-gradient-to-br from-slate-800 to-slate-900 border-t-2 border-t-orange-500">
+        <div class="flex justify-between items-start">
+            <div>
+                <h3 class="text-sm font-bold text-orange-400">Response Latency</h3>
+                <p class="text-xl font-bold text-white">118ms <span class="text-[10px] font-normal text-slate-400">Avg</span></p>
+            </div>
+            <div class="text-right">
+                <p class="text-[10px] text-slate-400">P95</p>
+                <p class="text-sm font-bold text-emerald-300">380ms</p> </div>
+        </div>
+        <div id="chart-response-codes" style="min-height: 150px;" class="-ml-2"></div>
+        <div class="mt-2 pt-2 border-t border-slate-700 flex justify-between items-center bg-slate-800/50 p-1.5 rounded">
+            <code class="text-[10px] text-red-300">POST /api/v1/checkout</code>
+            <span class="text-[10px] font-bold text-emerald-300">210ms (OK)</span>
+        </div>
+    </div>
+
+    <div class="col-span-12 md:col-span-6 lg:col-span-3 card p-4">
+        <h3 class="text-sm font-bold text-white mb-3"><i class="fa-solid fa-database text-orange-400 mr-2"></i> Database I/O</h3>
+        <div class="space-y-3">
+            <div>
+                <div class="flex justify-between text-xs mb-1"><span class="text-slate-400">Read</span><span class="text-emerald-400 font-bold">4.5k/s</span></div>
+                <div class="w-full bg-slate-700 h-1.5 rounded-full"><div class="bg-emerald-500 h-1.5 rounded-full" style="width: 58%"></div></div>
+            </div>
+            <div>
+                <div class="flex justify-between text-xs mb-1"><span class="text-slate-400">Write</span><span class="text-blue-400 font-bold">1.2k/s</span></div>
+                <div class="w-full bg-slate-700 h-1.5 rounded-full"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 32%"></div></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <div class="bg-slate-800 p-2 rounded text-center border border-yellow-500/30">
+                    <p class="text-[10px] text-slate-500">Active</p>
+                    <p class="text-sm font-bold text-yellow-400">128</p> </div>
+                <div class="bg-slate-800 p-2 rounded text-center border border-emerald-500/50">
+                    <p class="text-[10px] text-slate-500">Slow Queries</p>
+                    <p class="text-sm font-bold text-emerald-300">3</p> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 md:col-span-6 lg:col-span-5 card p-4">
+        <div class="flex justify-between items-center mb-0">
+            <h3 class="text-sm font-bold text-white">Query Load Heatmap</h3>
+            <div class="flex gap-2 text-[10px]">
+                <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-slate-700"></span> Normal</span>
+                <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-red-500"></span> Locked</span>
+            </div>
+        </div>
+        <div id="chart-heatmap" style="min-height: 180px;"></div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-4 space-y-2">
+            <div class="card p-3 border-l-2 border-l-emerald-500 flex justify-between items-center">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-emerald-300 text-xs">Capacity Ready</h4>
+                </div>
+                <p class="text-xs text-slate-300 mt-1">Web nodes running below 50%.</p>
+                <p class="text-[10px] text-slate-500">Auto-scaler on standby (4/10).</p>
+            </div>
+                <button class="text-[10px] bg-emerald-500/10 text-emerald-300 px-2 py-1 rounded">Monitor</button>
+        </div>
+
+        <div class="card p-3 border-l-2 border-l-orange-500 flex justify-between items-center">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-orange-400 text-xs">DB Index Healthy</h4>
+                </div>
+                <p class="text-xs text-slate-300 mt-1">Critical queries optimized.</p>
+                <p class="text-[10px] text-slate-500">p95 index hits > 99.1%.</p>
+            </div>
+            <button class="text-[10px] bg-orange-500/10 text-orange-400 px-2 py-1 rounded">Review</button>
+        </div>
+
+        <div class="card p-3 border-l-2 border-l-yellow-500 flex justify-between items-center">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-yellow-400 text-xs">Cache Hit Rate</h4>
+                </div>
+                <p class="text-xs text-slate-300 mt-1">Redis evictions minimal.</p>
+                <p class="text-[10px] text-slate-500">Hit rate steady at 97%.</p>
+            </div>
+            <button class="text-[10px] bg-yellow-500/10 text-yellow-400 px-2 py-1 rounded">Details</button>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    const commonOptions = {
+        chart: { background: 'transparent', toolbar: { show: false }, animations: { enabled: true }, fontFamily: 'Inter, sans-serif' },
+        theme: { mode: 'dark' },
+        grid: { borderColor: '#334155', strokeDashArray: 4, padding: { top: 0, right: 0, bottom: 0, left: 10 } },
+        dataLabels: { enabled: false }
+    };
+
+    // 1. Traffic IN (Surge pattern)
+    new ApexCharts(document.querySelector("#chart-traffic-in"), {
+        ...commonOptions,
+        series: [{ name: 'Requests', data: [3200, 3400, 3550, 3600, 3580, 3620, 3650, 3630] }],
+        chart: { type: 'area', height: 160, background: 'transparent', toolbar: { show: false }, sparkline: { enabled: false } },
+        stroke: { curve: 'smooth', width: 2 },
+        fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.7, opacityTo: 0.1, stops: [0, 100] } },
+        colors: ['#22c55e'],
+        xaxis: { categories: ['14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30', '14:35'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+        yaxis: { show: false }
+    }).render();
+
+    // 2. Response Codes (High 429/500s)
+    new ApexCharts(document.querySelector("#chart-response-codes"), {
+        ...commonOptions,
+        series: [{ name: 'Count', data: [42000, 1200, 250, 60, 20] }],
+        chart: { type: 'bar', height: 160, background: 'transparent', toolbar: { show: false } },
+        plotOptions: { bar: { borderRadius: 2, horizontal: false, columnWidth: '60%' } },
+        colors: ['#10b981', '#6366f1', '#f59e0b', '#f97316', '#ef4444'],
+        xaxis: { categories: ['200', '301', '404', '429', '500'], labels: { style: { fontSize: '10px' } } },
+        yaxis: { show: false }
+    }).render();
+
+    // 3. Heatmap (More red/saturated)
+    const generateData = (count, yrange) => {
+        let i = 0, series = [];
+        while (i < count) {
+            let y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+            series.push({ x: (i + 1).toString(), y: y });
+            i++;
+        }
+        return series;
+    };
+    new ApexCharts(document.querySelector("#chart-heatmap"), {
+        ...commonOptions,
+        series: [
+            { name: 'Users', data: generateData(10, {min: 45, max: 72}) },
+            { name: 'Orders', data: generateData(10, {min: 50, max: 75}) },
+            { name: 'Products', data: generateData(10, {min: 35, max: 65}) },
+            { name: 'Sessions', data: generateData(10, {min: 55, max: 78}) }
+        ],
+        chart: { type: 'heatmap', height: 180, background: 'transparent', toolbar: { show: false } },
+        plotOptions: {
+            heatmap: {
+                shadeIntensity: 0.5, radius: 2, useFillColorAsStroke: false,
+                colorScale: { ranges: [{ from: 0, to: 50, color: '#334155' }, { from: 51, to: 75, color: '#22c55e' }, { from: 76, to: 100, color: '#10b981' }] }
+            }
+        },
+        stroke: { width: 1, colors: ['#1e293b'] },
+        xaxis: { labels: { show: false }, tooltip: { enabled: false }},
+        yaxis: { labels: { style: { fontSize: '10px' } } }
+    }).render();
+
+    // 4. Resources (Critical Levels)
+    const radialOpt = {
+        chart: { height: 140, type: 'radialBar' },
+        plotOptions: {
+            radialBar: {
+                hollow: { size: '55%' },
+                dataLabels: { name: { show: false }, value: { color: '#fff', fontSize: '14px', fontWeight: 'bold', offsetY: 5 } },
+                track: { background: '#334155' }
+            },
+        },
+        stroke: { lineCap: 'round' }
+    };
+    // CPU/RAM in comfortable range
+    new ApexCharts(document.querySelector("#chart-cpu"), { ...radialOpt, series: [38], colors: ['#22c55e'] }).render();
+    new ApexCharts(document.querySelector("#chart-ram"), { ...radialOpt, series: [54], colors: ['#60a5fa'] }).render();
+
+    // Simulation: Maintain high numbers
+    setInterval(() => {
+        const rps = document.getElementById('live-rps');
+        const users = document.getElementById('live-users');
+        // Mild, steady fluctuations around a healthy baseline
+        let currentRps = parseInt(rps.innerText.replace(',', ''));
+        let change = Math.floor(Math.random() * 60) - 30;
+        if (currentRps > 4800) change = -35;
+        if (currentRps < 3800) change = 35;
+
+        rps.innerText = (currentRps + change).toLocaleString();
+        const minUsers = 220;
+        const maxUsers = 320;
+        const currentUsers = parseInt(users.innerText.replace(',', '')) || minUsers;
+        const userChange = Math.floor(Math.random() * 14) - 6;
+        const nextUsers = Math.min(maxUsers, Math.max(minUsers, currentUsers + userChange));
+        users.innerText = nextUsers.toLocaleString();
+    }, 1800);
+</script>
+</body>
+</html>

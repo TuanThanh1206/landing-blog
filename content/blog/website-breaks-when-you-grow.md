@@ -1,6 +1,7 @@
 ---
 title: "Why Your Website Breaks When You Grow (And How to Fix It Before It Happens)"
-date: "2024-01-21"
+date: "2025-12-05"
+updatedAt: "2025-12-05"
 author: "OptyxStack Team"
 thumbnail: "/images/blog/website-break-when-you-grow.jpeg"
 excerpt: "Your website works fine today — but what happens when traffic suddenly spikes? Learn why growing websites fail under pressure, the real business consequences, and how to fix it before it costs you revenue."

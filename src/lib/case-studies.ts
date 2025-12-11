@@ -12,6 +12,8 @@ export interface CaseStudy {
   slug: string;
   title: string;
   date: string;
+  createdAt?: string;
+  updatedAt?: string;
   excerpt?: string;
   client?: string;
   industry?: string;
@@ -47,12 +49,16 @@ export function getSortedCaseStudiesData(): CaseStudy[] {
 
       // Use gray-matter to parse the post metadata section
       const matterResult = matter(fileContents);
+      const createdAt = matterResult.data.date || '';
+      const updatedAt = matterResult.data.updatedAt || matterResult.data.updated || createdAt;
 
       // Combine the data with the slug
       return {
         slug,
         title: matterResult.data.title || 'Untitled',
-        date: matterResult.data.date || '',
+        date: createdAt,
+        createdAt,
+        updatedAt,
         excerpt: matterResult.data.excerpt || '',
         client: matterResult.data.client || '',
         industry: matterResult.data.industry || '',
@@ -99,6 +105,8 @@ export async function getCaseStudyData(slug: string): Promise<CaseStudy | null> 
 
     // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
+    const createdAt = matterResult.data.date || '';
+    const updatedAt = matterResult.data.updatedAt || matterResult.data.updated || createdAt;
 
     // Use remark to convert markdown into HTML string
     const processedContent = await remark()
@@ -114,7 +122,9 @@ export async function getCaseStudyData(slug: string): Promise<CaseStudy | null> 
       slug,
       contentHtml,
       title: matterResult.data.title || 'Untitled',
-      date: matterResult.data.date || '',
+      date: createdAt,
+      createdAt,
+      updatedAt,
       excerpt: matterResult.data.excerpt || '',
       client: matterResult.data.client || '',
       industry: matterResult.data.industry || '',

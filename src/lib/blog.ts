@@ -16,6 +16,8 @@ export interface BlogPost {
   author?: string;
   tags?: string[];
   thumbnail?: string; // Path to thumbnail image
+  updatedAt?: string;
+  createdAt?: string;
   content: string;
   contentHtml?: string;
 }
@@ -38,16 +40,20 @@ export function getSortedPostsData(): BlogPost[] {
 
       // Use gray-matter to parse the post metadata section
       const matterResult = matter(fileContents);
+      const createdAt = matterResult.data.date || '';
+      const updatedAt = matterResult.data.updatedAt || matterResult.data.updated || createdAt;
 
       // Combine the data with the slug
       return {
         slug,
         title: matterResult.data.title || 'Untitled',
-        date: matterResult.data.date || '',
+        date: createdAt,
         excerpt: matterResult.data.excerpt || '',
         author: matterResult.data.author || '',
         tags: matterResult.data.tags || [],
         thumbnail: matterResult.data.thumbnail || '',
+        createdAt,
+        updatedAt,
         content: matterResult.content,
       };
     });
@@ -85,6 +91,8 @@ export async function getPostData(slug: string): Promise<BlogPost | null> {
 
     // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
+    const createdAt = matterResult.data.date || '';
+    const updatedAt = matterResult.data.updatedAt || matterResult.data.updated || createdAt;
 
     // Use remark to convert markdown into HTML string
     const processedContent = await remark()
@@ -100,11 +108,13 @@ export async function getPostData(slug: string): Promise<BlogPost | null> {
       slug,
       contentHtml,
       title: matterResult.data.title || 'Untitled',
-      date: matterResult.data.date || '',
+      date: createdAt,
       excerpt: matterResult.data.excerpt || '',
       author: matterResult.data.author || '',
       tags: matterResult.data.tags || [],
       thumbnail: matterResult.data.thumbnail || '',
+      createdAt,
+      updatedAt,
       content: matterResult.content,
     };
   } catch (error) {

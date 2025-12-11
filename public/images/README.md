@@ -92,3 +92,4 @@ thumbnail: "/images/blog/your-blog-post.jpg"
 - Next.js Image component sẽ tự động optimize ảnh
 - Nếu ảnh không tồn tại, hệ thống sẽ hiển thị placeholder hoặc fallback
 
+

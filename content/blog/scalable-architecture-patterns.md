@@ -1,6 +1,7 @@
 ---
 title: "Building Scalable Architecture: Patterns and Best Practices"
-date: "2024-01-10"
+date: "2025-12-02"
+updatedAt: "2025-12-02"
 author: "OptyxStack Team"
 excerpt: "Discover the architectural patterns that help systems scale gracefully as your business grows."
 tags: ["Architecture", "Scalability", "System Design"]

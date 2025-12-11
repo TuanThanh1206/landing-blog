@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShareButtons from "@/components/ShareButtons";
 import { getPostData, getAllPostSlugs, getRelatedPosts, getRecentPosts, calculateReadingTime } from "@/lib/blog";
-import { Calendar, ArrowLeft, Clock } from "lucide-react";
+import { Calendar, ArrowLeft, Clock, RefreshCw } from "lucide-react";
 import { generateMetadata as genMeta, generateBlogPostingSchema, siteConfig } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -44,13 +44,28 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     const relatedPosts = getRelatedPosts(slug, post.tags || [], 3);
     const recentPosts = getRecentPosts(slug, 3);
     const readingTime = calculateReadingTime(post.contentHtml || post.content);
+    // SEO schema dates (fixed as requested)
+    const schemaDatePublished = "2025-01-12";
+    const schemaDateModified = "2025-02-03";
+    // UI dates: show December 2025 for all posts
+    const uiCreatedAt = "2025-12-01";
+    const uiUpdatedAt = "2025-12-15";
+    const createdAt = uiCreatedAt || post.createdAt || post.date;
+    const updatedAt = uiUpdatedAt || post.updatedAt || post.date;
+    const formatDateLong = (dateString: string) =>
+        new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
 
     const jsonLd = generateBlogPostingSchema({
         title: post.title,
         description: post.excerpt || post.content.substring(0, 150) || "",
         url: `${siteConfig.siteUrl}/blog/${slug}`,
-        datePublished: post.date,
-        dateModified: post.date,
+        // Per requirement: keep JSON-LD dates fixed
+        datePublished: schemaDatePublished,
+        dateModified: schemaDateModified,
         author: post.author || siteConfig.organization.name,
     });
 
@@ -105,16 +120,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                             {/* Meta Info */}
                             <div className="flex flex-wrap items-center gap-6 text-sm font-medium text-gray-800">
-                                {post.date && (
+                                {updatedAt && (
                                     <div className="flex items-center gap-2">
-                                        <Calendar className="h-4 w-4 text-gray-700" />
-                                        <span>
-                                            {new Date(post.date).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric'
-                                            })}
-                                        </span>
+                                        <RefreshCw className="h-4 w-4 text-gray-700" />
+                                        <span>Updated {formatDateLong(updatedAt)}</span>
                                     </div>
                                 )}
                                 {post.author && (
@@ -170,6 +179,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                                 prose-hr:border-gray-200"
                             dangerouslySetInnerHTML={{ __html: post.contentHtml || '' }}
                         />
+                        {createdAt && (
+                            <div className="mt-10 flex items-center gap-2 border-t border-gray-200 pt-6 text-sm font-medium text-gray-800">
+                                <Calendar className="h-4 w-4 text-gray-700" />
+                                <span>Created {formatDateLong(createdAt)}</span>
+                            </div>
+                        )}
                     </div>
                 </article>
 

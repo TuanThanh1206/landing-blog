@@ -1,6 +1,7 @@
 ---
 title: "Media Platform: Handling 50M Daily Requests with Edge Computing"
-date: "2024-04-05"
+date: "2025-12-08"
+updatedAt: "2025-12-08"
 client: "StreamMedia Pro"
 industry: "Media & Streaming"
 excerpt: "Optimized a media streaming platform to handle 50 million daily requests by implementing edge computing, intelligent caching, and CDN optimization, reducing latency by 80% globally."
@@ -241,6 +242,7 @@ With the edge infrastructure in place, we're now working on:
 ---
 
 *This case study demonstrates how edge computing can transform global performance and reduce costs simultaneously. If you're serving a global audience, edge computing should be part of your strategy.*
+
 
 
 

@@ -1,6 +1,7 @@
 ---
 title: "SaaS Platform: From Monolith to Scalable Microservices"
-date: "2024-02-20"
+date: "2025-12-06"
+updatedAt: "2025-12-06"
 client: "CloudFlow SaaS"
 industry: "SaaS / B2B"
 excerpt: "Architected a complete system redesign for a growing SaaS platform, migrating from a monolithic application to a scalable microservices architecture that supports 100,000+ active users."
@@ -180,6 +181,7 @@ With the new architecture in place, CloudFlow is now positioned for:
 ---
 
 *This case study demonstrates how proper architecture can unlock growth and innovation. If your platform is hitting scaling limits, we can help design a solution that fits your needs.*
+
 
 
 

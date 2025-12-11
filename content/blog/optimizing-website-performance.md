@@ -1,6 +1,7 @@
 ---
 title: "Optimizing Website Performance: A Complete Guide"
-date: "2024-01-15"
+date: "2025-12-03"
+updatedAt: "2025-12-03"
 author: "OptyxStack Team"
 excerpt: "Learn how to improve your website's speed and user experience with these proven optimization techniques."
 tags: ["Performance", "Web Development", "Optimization"]

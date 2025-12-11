@@ -1,6 +1,7 @@
 ---
 title: "Is Your Slow Website Killing Your Business? The Hidden Cost of Speed."
-date: "2024-01-20"
+date: "2025-12-04"
+updatedAt: "2025-12-04"
 author: "OptyxStack Team"
 thumbnail: "/images/blog/is-your-slow-website-killing-your-business.jpeg"
 excerpt: "Are you losing customers to a 3-second delay? Discover how a slow website hurts SEO, wastes ad budget, and lowers revenue. Get a free performance check today."

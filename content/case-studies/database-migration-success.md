@@ -1,6 +1,7 @@
 ---
 title: "Legacy Database Migration: Zero-Downtime Migration to Modern Stack"
-date: "2024-03-10"
+date: "2025-12-07"
+updatedAt: "2025-12-07"
 client: "FinanceHub Inc."
 industry: "Financial Services"
 excerpt: "Successfully migrated a mission-critical financial application from legacy Oracle database to PostgreSQL with zero downtime, improving performance by 60% and reducing costs by 70%."
@@ -225,6 +226,7 @@ After successful migration:
 ---
 
 *This case study demonstrates that even mission-critical database migrations can be executed with zero downtime and perfect data integrity. If you're considering a database migration, we can help plan and execute it safely.*
+
 
 
 
